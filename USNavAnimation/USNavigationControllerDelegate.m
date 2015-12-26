@@ -6,13 +6,15 @@
 //  Copyright © 2015年 MaRuJun. All rights reserved.
 //
 
+//http://dativestudios.com/blog/2013/09/29/interactive-transitions/
+
 #import "USNavigationControllerDelegate.h"
 #import "USNavAnimationTransition.h"
 
 @interface USNavigationControllerDelegate ()
 
-@property (strong, nonatomic) USNavFadeShowTransition *fadeShowTransition;
-@property (strong, nonatomic) USNavFadeHideTransition *fadeHideTransition;
+@property (strong, nonatomic) USNavFadeTransition *fadePushTransition;
+@property (strong, nonatomic) USNavFadeTransition *fadePopTransition;
 
 @property (strong, nonatomic) UINavigationController *navigationController;
 @property (strong, nonatomic) UIPercentDrivenInteractiveTransition* interactivePopTransition;
@@ -34,8 +36,8 @@
         UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panGestureHandler:)];
         [self.navigationController.view addGestureRecognizer:panRecognizer];
         
-        self.fadeShowTransition = [USNavFadeShowTransition new];
-        self.fadeHideTransition = [USNavFadeHideTransition new];
+        self.fadePushTransition = [USNavFadeTransition transitionWithOperation:UINavigationControllerOperationPush];
+        self.fadePopTransition = [USNavFadeTransition transitionWithOperation:UINavigationControllerOperationPop];
     }
     return self;
 }
@@ -74,7 +76,10 @@
 - (id<UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController animationControllerForOperation:(UINavigationControllerOperation)operation fromViewController:(UIViewController *)fromVC toViewController:(UIViewController *)toVC
 {
     if (operation == UINavigationControllerOperationPop) {
-        return self.fadeHideTransition;
+        return self.fadePopTransition;
+    }
+    if (operation == UINavigationControllerOperationPush) {
+        return self.fadePushTransition;
     }
     return nil;
 }

@@ -11,13 +11,12 @@
 
 @interface USNavAnimationTransition : NSObject <UIViewControllerAnimatedTransitioning>
 
+@property (nonatomic, assign) UINavigationControllerOperation operation;
+
++ (instancetype)transitionWithOperation:(UINavigationControllerOperation)operation;
+
 @end
 
-@interface USNavFadeShowTransition : USNavAnimationTransition
-
-@end
-
-
-@interface USNavFadeHideTransition : USNavAnimationTransition
+@interface USNavFadeTransition : USNavAnimationTransition
 
 @end

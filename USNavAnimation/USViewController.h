@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "UIView+AutoLayout.h"
 
 @interface USViewController : UIViewController
 

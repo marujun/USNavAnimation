@@ -10,6 +10,13 @@
 
 @implementation USNavAnimationTransition
 
++ (instancetype)transitionWithOperation:(UINavigationControllerOperation)operation
+{
+    USNavAnimationTransition *transition = [[self alloc] init];
+    transition.operation = operation;
+    return transition;
+}
+
 - (NSTimeInterval)transitionDuration:(id <UIViewControllerContextTransitioning>)transitionContext
 {
     return 1;
@@ -22,41 +29,23 @@
 
 @end
 
-@implementation USNavFadeShowTransition
+@implementation USNavFadeTransition
 
 - (void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext
 {
-    UIViewController* toViewController = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
-    UIViewController* fromViewController = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
-    [[transitionContext containerView] addSubview:toViewController.view];
+    UIView *containerView = [transitionContext containerView];
+    UIViewController *toViewController = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+    [containerView addSubview:toViewController.view];
+    
     toViewController.view.alpha = 0;
     
-    [UIView animateWithDuration:[self transitionDuration:transitionContext] animations:^{
-        fromViewController.view.transform = CGAffineTransformMakeScale(0.1, 0.1);
-        toViewController.view.alpha = 1;
-    } completion:^(BOOL finished) {
-        fromViewController.view.transform = CGAffineTransformIdentity;
-        [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
-    }];
-}
-
-@end
-
-
-@implementation USNavFadeHideTransition
-
-- (void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext
-{
-    UIViewController* toViewController = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
-    UIViewController* fromViewController = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
-    [[transitionContext containerView] addSubview:toViewController.view];
-    toViewController.view.alpha = 0;
+    if (self.operation == UINavigationControllerOperationPush) {
+        toViewController.view.frame = containerView.bounds;
+    }
     
     [UIView animateWithDuration:[self transitionDuration:transitionContext] animations:^{
-        fromViewController.view.transform = CGAffineTransformMakeScale(0.1, 0.1);
         toViewController.view.alpha = 1;
     } completion:^(BOOL finished) {
-        fromViewController.view.transform = CGAffineTransformIdentity;
         [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
     }];
 }

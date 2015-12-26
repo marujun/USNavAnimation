@@ -20,6 +20,7 @@
 		0AF202481C2E7347008589AA /* HomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0AF202461C2E7347008589AA /* HomeViewController.xib */; };
 		0AF2024B1C2E73D2008589AA /* USViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AF2024A1C2E73D2008589AA /* USViewController.m */; };
 		0AF202541C2E8076008589AA /* USNavAnimationTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AF202531C2E8076008589AA /* USNavAnimationTransition.m */; };
+		0AF202571C2E8CA6008589AA /* UIView+AutoLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AF202561C2E8CA6008589AA /* UIView+AutoLayout.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +66,8 @@
 		0AF2024A1C2E73D2008589AA /* USViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = USViewController.m; sourceTree = "<group>"; };
 		0AF202521C2E8076008589AA /* USNavAnimationTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = USNavAnimationTransition.h; sourceTree = "<group>"; };
 		0AF202531C2E8076008589AA /* USNavAnimationTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = USNavAnimationTransition.m; sourceTree = "<group>"; };
+		0AF202551C2E8CA6008589AA /* UIView+AutoLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+AutoLayout.h"; sourceTree = "<group>"; };
+		0AF202561C2E8CA6008589AA /* UIView+AutoLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+AutoLayout.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,6 +128,8 @@
 				0AF202441C2E7347008589AA /* HomeViewController.h */,
 				0AF202451C2E7347008589AA /* HomeViewController.m */,
 				0AF202461C2E7347008589AA /* HomeViewController.xib */,
+				0AF202551C2E8CA6008589AA /* UIView+AutoLayout.h */,
+				0AF202561C2E8CA6008589AA /* UIView+AutoLayout.m */,
 				0AF202521C2E8076008589AA /* USNavAnimationTransition.h */,
 				0AF202531C2E8076008589AA /* USNavAnimationTransition.m */,
 				0AF202411C2E7124008589AA /* USNavigationControllerDelegate.h */,
@@ -295,6 +300,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0AF202431C2E7124008589AA /* USNavigationControllerDelegate.m in Sources */,
+				0AF202571C2E8CA6008589AA /* UIView+AutoLayout.m in Sources */,
 				0AF2020E1C2E7024008589AA /* AppDelegate.m in Sources */,
 				0AF2023F1C2E708F008589AA /* RootViewController.m in Sources */,
 				0AF202471C2E7347008589AA /* HomeViewController.m in Sources */,
