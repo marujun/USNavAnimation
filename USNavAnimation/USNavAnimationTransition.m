@@ -10,13 +10,6 @@
 
 @implementation USNavAnimationTransition
 
-+ (instancetype)transitionWithOperation:(UINavigationControllerOperation)operation
-{
-    USNavAnimationTransition *transition = [[self alloc] init];
-    transition.operation = operation;
-    return transition;
-}
-
 - (NSTimeInterval)transitionDuration:(id <UIViewControllerContextTransitioning>)transitionContext
 {
     return 1;

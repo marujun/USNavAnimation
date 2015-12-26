@@ -13,8 +13,7 @@
 
 @interface USNavigationControllerDelegate ()
 
-@property (strong, nonatomic) USNavFadeTransition *fadePushTransition;
-@property (strong, nonatomic) USNavFadeTransition *fadePopTransition;
+@property (strong, nonatomic) USNavFadeTransition *fadeTransition;
 
 @property (strong, nonatomic) UINavigationController *navigationController;
 @property (strong, nonatomic) UIPercentDrivenInteractiveTransition* interactivePopTransition;
@@ -36,8 +35,7 @@
         UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panGestureHandler:)];
         [self.navigationController.view addGestureRecognizer:panRecognizer];
         
-        self.fadePushTransition = [USNavFadeTransition transitionWithOperation:UINavigationControllerOperationPush];
-        self.fadePopTransition = [USNavFadeTransition transitionWithOperation:UINavigationControllerOperationPop];
+        self.fadeTransition = [USNavFadeTransition new];
     }
     return self;
 }
@@ -75,13 +73,9 @@
 
 - (id<UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController animationControllerForOperation:(UINavigationControllerOperation)operation fromViewController:(UIViewController *)fromVC toViewController:(UIViewController *)toVC
 {
-    if (operation == UINavigationControllerOperationPop) {
-        return self.fadePopTransition;
-    }
-    if (operation == UINavigationControllerOperationPush) {
-        return self.fadePushTransition;
-    }
-    return nil;
+    self.fadeTransition.operation = operation;
+    
+    return self.fadeTransition;
 }
 
 - (id<UIViewControllerInteractiveTransitioning>)navigationController:(UINavigationController *)navigationController interactionControllerForAnimationController:(id<UIViewControllerAnimatedTransitioning>)animationController

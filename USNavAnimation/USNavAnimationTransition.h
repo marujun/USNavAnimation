@@ -13,8 +13,6 @@
 
 @property (nonatomic, assign) UINavigationControllerOperation operation;
 
-+ (instancetype)transitionWithOperation:(UINavigationControllerOperation)operation;
-
 @end
 
 @interface USNavFadeTransition : USNavAnimationTransition
