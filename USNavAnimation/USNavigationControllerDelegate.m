@@ -13,6 +13,7 @@
 
 @interface USNavigationControllerDelegate ()
 
+@property (strong, nonatomic) USNavFlipTransition *flipTransition;
 @property (strong, nonatomic) USNavFadeTransition *fadeTransition;
 
 @property (strong, nonatomic) UINavigationController *navigationController;
@@ -35,6 +36,7 @@
         UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panGestureHandler:)];
         [self.navigationController.view addGestureRecognizer:panRecognizer];
         
+        self.flipTransition = [USNavFlipTransition new];
         self.fadeTransition = [USNavFadeTransition new];
     }
     return self;
@@ -60,7 +62,8 @@
         // Update the interactive transition's progress
         [self.interactivePopTransition updateInteractiveTransition:progress];
     }
-    else if (recognizer.state == UIGestureRecognizerStateEnded) {
+    else if (recognizer.state == UIGestureRecognizerStateEnded ||
+             recognizer.state == UIGestureRecognizerStateCancelled) {
         // Finish or cancel the interactive transition
         if (progress > 0.3) {
             [self.interactivePopTransition finishInteractiveTransition];
@@ -73,9 +76,11 @@
 
 - (id<UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController animationControllerForOperation:(UINavigationControllerOperation)operation fromViewController:(UIViewController *)fromVC toViewController:(UIViewController *)toVC
 {
-    self.fadeTransition.operation = operation;
+    self.flipTransition.operation = operation;
+    return self.flipTransition;
     
-    return self.fadeTransition;
+//    self.fadeTransition.operation = operation;
+//    return self.fadeTransition;
 }
 
 - (id<UIViewControllerInteractiveTransitioning>)navigationController:(UINavigationController *)navigationController interactionControllerForAnimationController:(id<UIViewControllerAnimatedTransitioning>)animationController

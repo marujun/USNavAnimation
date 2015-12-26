@@ -18,3 +18,7 @@
 @interface USNavFadeTransition : USNavAnimationTransition
 
 @end
+
+@interface USNavFlipTransition : USNavAnimationTransition
+
+@end
