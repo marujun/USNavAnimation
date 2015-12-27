@@ -27,15 +27,24 @@
 - (void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext
 {
     UIView *containerView = [transitionContext containerView];
+    UIViewController *fromViewController = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
     UIViewController *toViewController = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     [containerView addSubview:toViewController.view];
     
-    toViewController.view.alpha = 0;
-    
-    if (!_reversed) toViewController.view.frame = containerView.bounds;
+    if (!_reversed) {
+        toViewController.view.frame = containerView.bounds;
+        toViewController.view.alpha = 0;
+    }
+    else {
+        [containerView bringSubviewToFront:fromViewController.view];
+    }
     
     [UIView animateWithDuration:[self transitionDuration:transitionContext] animations:^{
-        toViewController.view.alpha = 1;
+        if (_reversed) {
+            fromViewController.view.alpha = 0;
+        } else {
+            toViewController.view.alpha = 1;
+        }
     } completion:^(BOOL finished) {
         [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
     }];
@@ -56,6 +65,9 @@
     if (!_reversed) {
         options = UIViewAnimationOptionTransitionFlipFromRight;
         toViewController.view.frame = containerView.bounds;
+    }
+    else {
+        [containerView bringSubviewToFront:fromViewController.view];
     }
     
     [CATransaction flush];
@@ -78,6 +90,7 @@
 - (void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext
 {
     UIView *containerView = [transitionContext containerView];
+    UIViewController *fromViewController = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
     UIViewController *toViewController = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     [containerView addSubview:toViewController.view];
     
@@ -93,6 +106,9 @@
         options = UIViewAnimationOptionTransitionFlipFromRight;
         toViewController.view.frame = containerView.bounds;
         for (UIView *itemView in fadeViews) itemView.alpha = 0;
+    }
+    else {
+        [containerView bringSubviewToFront:fromViewController.view];
     }
     
     snapshotView.translatesAutoresizingMaskIntoConstraints = YES;
