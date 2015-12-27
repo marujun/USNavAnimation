@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A009E0A1C2FD12400D0BDF5 /* TimelineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A009E081C2FD12400D0BDF5 /* TimelineViewController.m */; };
+		0A009E0B1C2FD12400D0BDF5 /* TimelineViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A009E091C2FD12400D0BDF5 /* TimelineViewController.xib */; };
 		0AF2020B1C2E7024008589AA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AF2020A1C2E7024008589AA /* main.m */; };
 		0AF2020E1C2E7024008589AA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AF2020D1C2E7024008589AA /* AppDelegate.m */; };
 		0AF202161C2E7024008589AA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0AF202151C2E7024008589AA /* Assets.xcassets */; };
@@ -16,8 +18,8 @@
 		0AF2023F1C2E708F008589AA /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AF2023D1C2E708F008589AA /* RootViewController.m */; };
 		0AF202401C2E708F008589AA /* RootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0AF2023E1C2E708F008589AA /* RootViewController.xib */; };
 		0AF202431C2E7124008589AA /* USNavigationControllerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AF202421C2E7124008589AA /* USNavigationControllerDelegate.m */; };
-		0AF202471C2E7347008589AA /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AF202451C2E7347008589AA /* HomeViewController.m */; };
-		0AF202481C2E7347008589AA /* HomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0AF202461C2E7347008589AA /* HomeViewController.xib */; };
+		0AF202471C2E7347008589AA /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AF202451C2E7347008589AA /* DetailViewController.m */; };
+		0AF202481C2E7347008589AA /* DetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0AF202461C2E7347008589AA /* DetailViewController.xib */; };
 		0AF2024B1C2E73D2008589AA /* USViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AF2024A1C2E73D2008589AA /* USViewController.m */; };
 		0AF202541C2E8076008589AA /* USNavAnimationTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AF202531C2E8076008589AA /* USNavAnimationTransition.m */; };
 		0AF202571C2E8CA6008589AA /* UIView+AutoLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AF202561C2E8CA6008589AA /* UIView+AutoLayout.m */; };
@@ -41,6 +43,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0A009E071C2FD12400D0BDF5 /* TimelineViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimelineViewController.h; sourceTree = "<group>"; };
+		0A009E081C2FD12400D0BDF5 /* TimelineViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimelineViewController.m; sourceTree = "<group>"; };
+		0A009E091C2FD12400D0BDF5 /* TimelineViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TimelineViewController.xib; sourceTree = "<group>"; };
 		0AF202061C2E7023008589AA /* USNavAnimation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = USNavAnimation.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0AF2020A1C2E7024008589AA /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		0AF2020C1C2E7024008589AA /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -59,9 +64,9 @@
 		0AF2023E1C2E708F008589AA /* RootViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RootViewController.xib; sourceTree = "<group>"; };
 		0AF202411C2E7124008589AA /* USNavigationControllerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = USNavigationControllerDelegate.h; sourceTree = "<group>"; };
 		0AF202421C2E7124008589AA /* USNavigationControllerDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = USNavigationControllerDelegate.m; sourceTree = "<group>"; };
-		0AF202441C2E7347008589AA /* HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeViewController.h; sourceTree = "<group>"; };
-		0AF202451C2E7347008589AA /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeViewController.m; sourceTree = "<group>"; };
-		0AF202461C2E7347008589AA /* HomeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HomeViewController.xib; sourceTree = "<group>"; };
+		0AF202441C2E7347008589AA /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
+		0AF202451C2E7347008589AA /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
+		0AF202461C2E7347008589AA /* DetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailViewController.xib; sourceTree = "<group>"; };
 		0AF202491C2E73D2008589AA /* USViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = USViewController.h; sourceTree = "<group>"; };
 		0AF2024A1C2E73D2008589AA /* USViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = USViewController.m; sourceTree = "<group>"; };
 		0AF202521C2E8076008589AA /* USNavAnimationTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = USNavAnimationTransition.h; sourceTree = "<group>"; };
@@ -95,6 +100,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0A009E0C1C2FD22F00D0BDF5 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				0AF2023C1C2E708F008589AA /* RootViewController.h */,
+				0AF2023D1C2E708F008589AA /* RootViewController.m */,
+				0AF2023E1C2E708F008589AA /* RootViewController.xib */,
+				0AF202441C2E7347008589AA /* DetailViewController.h */,
+				0AF202451C2E7347008589AA /* DetailViewController.m */,
+				0AF202461C2E7347008589AA /* DetailViewController.xib */,
+				0A009E071C2FD12400D0BDF5 /* TimelineViewController.h */,
+				0A009E081C2FD12400D0BDF5 /* TimelineViewController.m */,
+				0A009E091C2FD12400D0BDF5 /* TimelineViewController.xib */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
 		0AF201FD1C2E7023008589AA = {
 			isa = PBXGroup;
 			children = (
@@ -122,12 +143,7 @@
 				0AF2020D1C2E7024008589AA /* AppDelegate.m */,
 				0AF202491C2E73D2008589AA /* USViewController.h */,
 				0AF2024A1C2E73D2008589AA /* USViewController.m */,
-				0AF2023C1C2E708F008589AA /* RootViewController.h */,
-				0AF2023D1C2E708F008589AA /* RootViewController.m */,
-				0AF2023E1C2E708F008589AA /* RootViewController.xib */,
-				0AF202441C2E7347008589AA /* HomeViewController.h */,
-				0AF202451C2E7347008589AA /* HomeViewController.m */,
-				0AF202461C2E7347008589AA /* HomeViewController.xib */,
+				0A009E0C1C2FD22F00D0BDF5 /* Classes */,
 				0AF202551C2E8CA6008589AA /* UIView+AutoLayout.h */,
 				0AF202561C2E8CA6008589AA /* UIView+AutoLayout.m */,
 				0AF202521C2E8076008589AA /* USNavAnimationTransition.h */,
@@ -273,8 +289,9 @@
 			files = (
 				0AF202191C2E7024008589AA /* LaunchScreen.storyboard in Resources */,
 				0AF202161C2E7024008589AA /* Assets.xcassets in Resources */,
+				0A009E0B1C2FD12400D0BDF5 /* TimelineViewController.xib in Resources */,
 				0AF202401C2E708F008589AA /* RootViewController.xib in Resources */,
-				0AF202481C2E7347008589AA /* HomeViewController.xib in Resources */,
+				0AF202481C2E7347008589AA /* DetailViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -301,9 +318,10 @@
 			files = (
 				0AF202431C2E7124008589AA /* USNavigationControllerDelegate.m in Sources */,
 				0AF202571C2E8CA6008589AA /* UIView+AutoLayout.m in Sources */,
+				0A009E0A1C2FD12400D0BDF5 /* TimelineViewController.m in Sources */,
 				0AF2020E1C2E7024008589AA /* AppDelegate.m in Sources */,
 				0AF2023F1C2E708F008589AA /* RootViewController.m in Sources */,
-				0AF202471C2E7347008589AA /* HomeViewController.m in Sources */,
+				0AF202471C2E7347008589AA /* DetailViewController.m in Sources */,
 				0AF202541C2E8076008589AA /* USNavAnimationTransition.m in Sources */,
 				0AF2024B1C2E73D2008589AA /* USViewController.m in Sources */,
 				0AF2020B1C2E7024008589AA /* main.m in Sources */,

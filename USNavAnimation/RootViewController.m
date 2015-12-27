@@ -7,7 +7,7 @@
 //
 
 #import "RootViewController.h"
-#import "HomeViewController.h"
+#import "DetailViewController.h"
 
 @interface RootViewController ()
 
@@ -33,8 +33,23 @@
 
 - (IBAction)pushButtonAction:(UIButton *)sender
 {
-    [self.navigationController pushViewController:[HomeViewController viewController] animated:YES];
+    DetailViewController *detailViewController = [DetailViewController viewController];
+    detailViewController.scaleBeginRect = sender.frame;
+    detailViewController.transitionOption = USNavigationTransitionOptionScale;
+    [self.navigationController pushViewController:detailViewController animated:YES];
 }
 
+- (IBAction)fadeButtonAction:(UIButton *)sender
+{
+    DetailViewController *detailViewController = [DetailViewController viewController];
+    detailViewController.transitionOption = USNavigationTransitionOptionFade;
+    [self.navigationController pushViewController:detailViewController animated:YES];
+}
+
+- (IBAction)noneButtonAction:(UIButton *)sender
+{
+    DetailViewController *detailViewController = [DetailViewController viewController];
+    [self.navigationController pushViewController:detailViewController animated:YES];
+}
 
 @end

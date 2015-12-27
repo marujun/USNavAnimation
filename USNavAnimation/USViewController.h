@@ -8,8 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "UIView+AutoLayout.h"
+#import "USNavAnimationTransition.h"
 
 @interface USViewController : UIViewController
+
+@property (nonatomic, assign) USNavigationTransitionOption transitionOption;
 
 - (void)updateDisplay;
 

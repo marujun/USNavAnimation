@@ -31,6 +31,7 @@
     RootViewController *rootVC = [RootViewController viewController];
     UINavigationController *naVC = [[UINavigationController alloc] initWithRootViewController:rootVC];
     navDelegate = [[USNavigationControllerDelegate alloc] initWithNavigationController:naVC];
+    naVC.view.backgroundColor = [UIColor blackColor];
     naVC.delegate = navDelegate;
     naVC.interactivePopGestureRecognizer.delegate = navDelegate;
     

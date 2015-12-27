@@ -15,15 +15,49 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HZg-4S-9aj">
-                    <rect key="frame" x="99" y="250" width="123" height="67"/>
-                    <state key="normal" title="Push"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HZg-4S-9aj">
+                    <rect key="frame" x="95.5" y="114" width="130" height="60"/>
+                    <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="60" id="40T-7L-qRM"/>
+                        <constraint firstAttribute="width" constant="130" id="Bpx-dM-Jbr"/>
+                    </constraints>
                     <connections>
                         <action selector="pushButtonAction:" destination="-1" eventType="touchUpInside" id="LfW-le-e3L"/>
                     </connections>
                 </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Oom-DI-0OS">
+                    <rect key="frame" x="95.5" y="394" width="130" height="60"/>
+                    <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="130" id="fU0-1c-qZF"/>
+                        <constraint firstAttribute="height" constant="60" id="vbM-os-Fgo"/>
+                    </constraints>
+                    <connections>
+                        <action selector="noneButtonAction:" destination="-1" eventType="touchUpInside" id="tiM-Ej-ATy"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gIi-ja-qZR">
+                    <rect key="frame" x="95" y="254" width="130" height="60"/>
+                    <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="60" id="NU7-2f-0Aa"/>
+                        <constraint firstAttribute="width" constant="130" id="rp9-LI-gpq"/>
+                    </constraints>
+                    <connections>
+                        <action selector="fadeButtonAction:" destination="-1" eventType="touchUpInside" id="prf-qY-J4H"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="gIi-ja-qZR" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="8h5-dd-JuX"/>
+                <constraint firstItem="Oom-DI-0OS" firstAttribute="top" secondItem="gIi-ja-qZR" secondAttribute="bottom" constant="80" id="9jA-zg-HKM"/>
+                <constraint firstItem="gIi-ja-qZR" firstAttribute="top" secondItem="HZg-4S-9aj" secondAttribute="bottom" constant="80" id="UIv-SW-y6y"/>
+                <constraint firstItem="gIi-ja-qZR" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="bla-vw-fTO"/>
+                <constraint firstItem="Oom-DI-0OS" firstAttribute="leading" secondItem="HZg-4S-9aj" secondAttribute="leading" id="eAs-xQ-fl2"/>
+                <constraint firstItem="gIi-ja-qZR" firstAttribute="leading" secondItem="HZg-4S-9aj" secondAttribute="leading" id="nog-zm-NLw"/>
+            </constraints>
             <point key="canvasLocation" x="560" y="371"/>
         </view>
     </objects>

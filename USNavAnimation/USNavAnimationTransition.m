@@ -32,9 +32,7 @@
     
     toViewController.view.alpha = 0;
     
-    if (self.operation == UINavigationControllerOperationPush) {
-        toViewController.view.frame = containerView.bounds;
-    }
+    if (!_reversed) toViewController.view.frame = containerView.bounds;
     
     [UIView animateWithDuration:[self transitionDuration:transitionContext] animations:^{
         toViewController.view.alpha = 1;
@@ -55,7 +53,7 @@
     [containerView addSubview:toViewController.view];
     
     UIViewAnimationOptions options = UIViewAnimationOptionTransitionFlipFromLeft;
-    if (self.operation == UINavigationControllerOperationPush) {
+    if (!_reversed) {
         options = UIViewAnimationOptionTransitionFlipFromRight;
         toViewController.view.frame = containerView.bounds;
     }
@@ -71,6 +69,53 @@
                         [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
                         fromViewController.view.hidden = NO;
                     }];
+}
+
+@end
+
+@implementation USNavScaleTransition
+
+- (void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext
+{
+    UIView *containerView = [transitionContext containerView];
+    UIViewController *toViewController = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+    [containerView addSubview:toViewController.view];
+    
+    UIView *snapshotView = [_dataSource snapshotViewWithScaleTransition:self];
+    NSArray *fadeViews = [_dataSource fadeViewsWithScaleTransition:self];
+    CGRect beginRect = [_dataSource beginRectWithScaleTransition:self];
+    CGRect endRect = [_dataSource endRectWithScaleTransition:self];
+    
+    NSAssert(snapshotView, @"过渡动画中的镜像视图不能为nil");
+    
+    UIViewAnimationOptions options = UIViewAnimationOptionTransitionFlipFromLeft;
+    if (!_reversed) {
+        options = UIViewAnimationOptionTransitionFlipFromRight;
+        toViewController.view.frame = containerView.bounds;
+        for (UIView *itemView in fadeViews) itemView.alpha = 0;
+    }
+    
+    snapshotView.translatesAutoresizingMaskIntoConstraints = YES;
+    [snapshotView removeFromSuperview];
+    [containerView addSubview:snapshotView];
+    
+    snapshotView.frame = _reversed?endRect:beginRect;
+    
+    if ([_dataSource respondsToSelector:@selector(snapshotViewDidPresented:)]) {
+        [_dataSource snapshotViewDidPresented:self];
+    }
+    
+    [UIView animateWithDuration:[self transitionDuration:transitionContext] animations:^{
+        for (UIView *itemView in fadeViews) itemView.alpha = _reversed?0:1;
+        snapshotView.frame = _reversed?beginRect:endRect;
+    } completion:^(BOOL finished) {
+        [transitionContext completeTransition:!transitionContext.transitionWasCancelled];
+        
+        [snapshotView removeFromSuperview];
+        if ([_dataSource respondsToSelector:@selector(snapshotViewDidDismiss:)]) {
+            [_dataSource snapshotViewDidDismiss:self];
+        }
+    }];
 }
 
 @end

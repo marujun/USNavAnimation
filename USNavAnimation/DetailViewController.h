@@ -1,5 +1,5 @@
 //
-//  HomeViewController.h
+//  DetailViewController.h
 //  USNavAnimation
 //
 //  Created by marujun on 15/12/26.
@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "USViewController.h"
 
-@interface HomeViewController : USViewController
+@interface DetailViewController : USViewController <USScaleTransitionDataSource>
+
+@property (nonatomic, assign) CGRect scaleBeginRect;
 
 @end

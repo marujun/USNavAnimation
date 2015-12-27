@@ -9,9 +9,19 @@
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
 
-@interface USNavAnimationTransition : NSObject <UIViewControllerAnimatedTransitioning>
+typedef NS_ENUM(NSUInteger, USNavigationTransitionOption) {
+    USNavigationTransitionOptionNone = 0,
+    USNavigationTransitionOptionFade,
+    USNavigationTransitionOptionFlip,
+    USNavigationTransitionOptionScale
+};
 
-@property (nonatomic, assign) UINavigationControllerOperation operation;
+@interface USNavAnimationTransition : NSObject <UIViewControllerAnimatedTransitioning>
+{
+    BOOL _reversed;
+}
+
+@property (nonatomic, assign) BOOL reversed;
 
 @end
 
@@ -20,5 +30,25 @@
 @end
 
 @interface USNavFlipTransition : USNavAnimationTransition
+
+@end
+
+@class USNavScaleTransition;
+@protocol USScaleTransitionDataSource <NSObject>
+@required
+- (CGRect)beginRectWithScaleTransition:(USNavScaleTransition *)transition;
+- (CGRect)endRectWithScaleTransition:(USNavScaleTransition *)transition;
+- (NSArray<UIView *> *)fadeViewsWithScaleTransition:(USNavScaleTransition *)transition;
+- (UIView *)snapshotViewWithScaleTransition:(USNavScaleTransition *)transition;
+
+@optional
+- (void)snapshotViewDidPresented:(USNavScaleTransition *)transition;
+- (void)snapshotViewDidDismiss:(USNavScaleTransition *)transition;
+
+@end
+
+@interface USNavScaleTransition : USNavAnimationTransition
+
+@property (weak, nonatomic) id<USScaleTransitionDataSource> dataSource;
 
 @end
