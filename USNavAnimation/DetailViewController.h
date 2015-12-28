@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "USViewController.h"
 
-@interface DetailViewController : USViewController <USScaleTransitionDataSource>
+@interface DetailViewController : USViewController <USScaleTransitionAnimatorDataSource>
 
 @property (nonatomic, assign) CGRect scaleBeginRect;
 

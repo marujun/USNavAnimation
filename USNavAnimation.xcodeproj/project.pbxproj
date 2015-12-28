@@ -17,11 +17,11 @@
 		0AF2022F1C2E7024008589AA /* USNavAnimationUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AF2022E1C2E7024008589AA /* USNavAnimationUITests.m */; };
 		0AF2023F1C2E708F008589AA /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AF2023D1C2E708F008589AA /* RootViewController.m */; };
 		0AF202401C2E708F008589AA /* RootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0AF2023E1C2E708F008589AA /* RootViewController.xib */; };
-		0AF202431C2E7124008589AA /* USNavigationControllerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AF202421C2E7124008589AA /* USNavigationControllerDelegate.m */; };
+		0AF202431C2E7124008589AA /* USNavDelegateHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AF202421C2E7124008589AA /* USNavDelegateHandler.m */; };
 		0AF202471C2E7347008589AA /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AF202451C2E7347008589AA /* DetailViewController.m */; };
 		0AF202481C2E7347008589AA /* DetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0AF202461C2E7347008589AA /* DetailViewController.xib */; };
 		0AF2024B1C2E73D2008589AA /* USViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AF2024A1C2E73D2008589AA /* USViewController.m */; };
-		0AF202541C2E8076008589AA /* USNavAnimationTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AF202531C2E8076008589AA /* USNavAnimationTransition.m */; };
+		0AF202541C2E8076008589AA /* USTransitionAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AF202531C2E8076008589AA /* USTransitionAnimator.m */; };
 		0AF202571C2E8CA6008589AA /* UIView+AutoLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AF202561C2E8CA6008589AA /* UIView+AutoLayout.m */; };
 /* End PBXBuildFile section */
 
@@ -62,15 +62,15 @@
 		0AF2023C1C2E708F008589AA /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
 		0AF2023D1C2E708F008589AA /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
 		0AF2023E1C2E708F008589AA /* RootViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RootViewController.xib; sourceTree = "<group>"; };
-		0AF202411C2E7124008589AA /* USNavigationControllerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = USNavigationControllerDelegate.h; sourceTree = "<group>"; };
-		0AF202421C2E7124008589AA /* USNavigationControllerDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = USNavigationControllerDelegate.m; sourceTree = "<group>"; };
+		0AF202411C2E7124008589AA /* USNavDelegateHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = USNavDelegateHandler.h; sourceTree = "<group>"; };
+		0AF202421C2E7124008589AA /* USNavDelegateHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = USNavDelegateHandler.m; sourceTree = "<group>"; };
 		0AF202441C2E7347008589AA /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
 		0AF202451C2E7347008589AA /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
 		0AF202461C2E7347008589AA /* DetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailViewController.xib; sourceTree = "<group>"; };
 		0AF202491C2E73D2008589AA /* USViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = USViewController.h; sourceTree = "<group>"; };
 		0AF2024A1C2E73D2008589AA /* USViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = USViewController.m; sourceTree = "<group>"; };
-		0AF202521C2E8076008589AA /* USNavAnimationTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = USNavAnimationTransition.h; sourceTree = "<group>"; };
-		0AF202531C2E8076008589AA /* USNavAnimationTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = USNavAnimationTransition.m; sourceTree = "<group>"; };
+		0AF202521C2E8076008589AA /* USTransitionAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = USTransitionAnimator.h; sourceTree = "<group>"; };
+		0AF202531C2E8076008589AA /* USTransitionAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = USTransitionAnimator.m; sourceTree = "<group>"; };
 		0AF202551C2E8CA6008589AA /* UIView+AutoLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+AutoLayout.h"; sourceTree = "<group>"; };
 		0AF202561C2E8CA6008589AA /* UIView+AutoLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+AutoLayout.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -146,10 +146,10 @@
 				0A009E0C1C2FD22F00D0BDF5 /* Classes */,
 				0AF202551C2E8CA6008589AA /* UIView+AutoLayout.h */,
 				0AF202561C2E8CA6008589AA /* UIView+AutoLayout.m */,
-				0AF202521C2E8076008589AA /* USNavAnimationTransition.h */,
-				0AF202531C2E8076008589AA /* USNavAnimationTransition.m */,
-				0AF202411C2E7124008589AA /* USNavigationControllerDelegate.h */,
-				0AF202421C2E7124008589AA /* USNavigationControllerDelegate.m */,
+				0AF202521C2E8076008589AA /* USTransitionAnimator.h */,
+				0AF202531C2E8076008589AA /* USTransitionAnimator.m */,
+				0AF202411C2E7124008589AA /* USNavDelegateHandler.h */,
+				0AF202421C2E7124008589AA /* USNavDelegateHandler.m */,
 				0AF202151C2E7024008589AA /* Assets.xcassets */,
 				0AF202171C2E7024008589AA /* LaunchScreen.storyboard */,
 				0AF2021A1C2E7024008589AA /* Info.plist */,
@@ -316,13 +316,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0AF202431C2E7124008589AA /* USNavigationControllerDelegate.m in Sources */,
+				0AF202431C2E7124008589AA /* USNavDelegateHandler.m in Sources */,
 				0AF202571C2E8CA6008589AA /* UIView+AutoLayout.m in Sources */,
 				0A009E0A1C2FD12400D0BDF5 /* TimelineViewController.m in Sources */,
 				0AF2020E1C2E7024008589AA /* AppDelegate.m in Sources */,
 				0AF2023F1C2E708F008589AA /* RootViewController.m in Sources */,
 				0AF202471C2E7347008589AA /* DetailViewController.m in Sources */,
-				0AF202541C2E8076008589AA /* USNavAnimationTransition.m in Sources */,
+				0AF202541C2E8076008589AA /* USTransitionAnimator.m in Sources */,
 				0AF2024B1C2E73D2008589AA /* USViewController.m in Sources */,
 				0AF2020B1C2E7024008589AA /* main.m in Sources */,
 			);

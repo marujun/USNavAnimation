@@ -27,9 +27,9 @@
     self.title = @"详情";
    
     if (self.transitionOption != USNavigationTransitionOptionScale) {
-        [self snapshotViewWithScaleTransition:nil];
+        [self snapshotViewWithScaleAnimator:nil];
         [self.view addSubview:_transitionAnimationView];
-        _transitionAnimationView.frame = [self endRectWithScaleTransition:nil];
+        _transitionAnimationView.frame = [self endRectWithScaleAnimator:nil];
     }
 }
 
@@ -48,7 +48,7 @@
     
     _lastDisplayView = [[UIImageView alloc] init];
     _lastDisplayView.backgroundColor = [UIColor redColor];
-    _lastDisplayView.frame = [self endRectWithScaleTransition:nil];
+    _lastDisplayView.frame = [self endRectWithScaleAnimator:nil];
     [self.view addSubview:_lastDisplayView];
 }
 
@@ -59,20 +59,20 @@
     [self.navigationController pushViewController:timelineViewController animated:YES];
 }
 
-#pragma mark - USScaleTransitionDataSource
-- (CGRect)beginRectWithScaleTransition:(USNavScaleTransition *)transition {
+#pragma mark - USScaleTransitionAnimatorDataSource
+- (CGRect)beginRectWithScaleAnimator:(USScaleTransitionAnimator *)animator {
     return _scaleBeginRect;
 }
 
-- (CGRect)endRectWithScaleTransition:(USNavScaleTransition *)transition {
+- (CGRect)endRectWithScaleAnimator:(USScaleTransitionAnimator *)animator {
     return CGRectMake(0, 100, [[UIScreen mainScreen] bounds].size.width, 400);
 }
 
-- (NSArray<UIView *> *)fadeViewsWithScaleTransition:(USNavScaleTransition *)transition {
+- (NSArray<UIView *> *)fadeViewsWithScaleAnimator:(USScaleTransitionAnimator *)animator {
     return @[_bgLabel, _bottomButton];
 }
 
-- (UIView *)snapshotViewWithScaleTransition:(USNavScaleTransition *)transition {
+- (UIView *)snapshotViewWithScaleAnimator:(USScaleTransitionAnimator *)animator {
     if (!_transitionAnimationView) {
         _transitionAnimationView = [[UIImageView alloc] init];
         _transitionAnimationView.backgroundColor = [UIColor redColor];
@@ -80,11 +80,11 @@
     return _transitionAnimationView;
 }
 
-- (void)snapshotViewDidPresented:(USNavScaleTransition *)transition {
+- (void)snapshotViewDidPresented:(USScaleTransitionAnimator *)animator {
     _lastDisplayView.hidden = YES;
 }
 
-- (void)snapshotViewDidDismiss:(USNavScaleTransition *)transition {
+- (void)snapshotViewDidDismiss:(USScaleTransitionAnimator *)animator {
     _lastDisplayView.hidden = NO;
 }
 

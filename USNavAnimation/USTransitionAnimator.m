@@ -1,14 +1,14 @@
 //
-//  USNavAnimationTransition.m
+//  USTransitionAnimator.m
 //  USNavAnimation
 //
 //  Created by marujun on 15/12/26.
 //  Copyright © 2015年 MaRuJun. All rights reserved.
 //
 
-#import "USNavAnimationTransition.h"
+#import "USTransitionAnimator.h"
 
-@implementation USNavAnimationTransition
+@implementation USTransitionAnimator
 
 - (NSTimeInterval)transitionDuration:(id <UIViewControllerContextTransitioning>)transitionContext
 {
@@ -22,7 +22,7 @@
 
 @end
 
-@implementation USNavFadeTransition
+@implementation USFadeTransitionAnimator
 
 - (void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext
 {
@@ -52,7 +52,7 @@
 
 @end
 
-@implementation USNavFlipTransition
+@implementation USFlipTransitionAnimator
 
 - (void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext
 {
@@ -85,7 +85,7 @@
 
 @end
 
-@implementation USNavScaleTransition
+@implementation USScaleTransitionAnimator
 
 - (void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext
 {
@@ -94,10 +94,10 @@
     UIViewController *toViewController = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     [containerView addSubview:toViewController.view];
     
-    UIView *snapshotView = [_dataSource snapshotViewWithScaleTransition:self];
-    NSArray *fadeViews = [_dataSource fadeViewsWithScaleTransition:self];
-    CGRect beginRect = [_dataSource beginRectWithScaleTransition:self];
-    CGRect endRect = [_dataSource endRectWithScaleTransition:self];
+    UIView *snapshotView = [_dataSource snapshotViewWithScaleAnimator:self];
+    NSArray *fadeViews = [_dataSource fadeViewsWithScaleAnimator:self];
+    CGRect beginRect = [_dataSource beginRectWithScaleAnimator:self];
+    CGRect endRect = [_dataSource endRectWithScaleAnimator:self];
     
     NSAssert(snapshotView, @"过渡动画中的镜像视图不能为nil");
     

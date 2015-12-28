@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "UIView+AutoLayout.h"
-#import "USNavAnimationTransition.h"
+#import "USTransitionAnimator.h"
 
 @interface USViewController : UIViewController
 

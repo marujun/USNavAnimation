@@ -1,5 +1,5 @@
 //
-//  USNavigationControllerDelegate.m
+//  USNavDelegateHandler.m
 //  USNavAnimation
 //
 //  Created by marujun on 15/12/26.
@@ -8,53 +8,58 @@
 
 //http://dativestudios.com/blog/2013/09/29/interactive-transitions/
 
-#import "USNavigationControllerDelegate.h"
-#import "USNavAnimationTransition.h"
+#import "USNavDelegateHandler.h"
+#import "USTransitionAnimator.h"
 #import "USViewController.h"
 
-@interface USNavigationControllerDelegate ()
+@interface USNavDelegateHandler ()
 
-@property (strong, nonatomic) USNavFlipTransition *flipTransition;
-@property (strong, nonatomic) USNavFadeTransition *fadeTransition;
-@property (strong, nonatomic) USNavScaleTransition *scaleTransition;
+@property (strong, nonatomic) USFlipTransitionAnimator *flipTransition;
+@property (strong, nonatomic) USFadeTransitionAnimator *fadeTransition;
+@property (strong, nonatomic) USScaleTransitionAnimator *scaleTransition;
 
 @property (strong, nonatomic) UIPanGestureRecognizer *panGestureRecognizer;
-@property (strong, nonatomic) UINavigationController *navigationController;
 @property (strong, nonatomic) UIPercentDrivenInteractiveTransition *interactivePopTransition;
 
 @end
 
 
-@implementation USNavigationControllerDelegate
+@implementation USNavDelegateHandler
 
-- (instancetype)initWithNavigationController:(UINavigationController *)navigationController
+- (instancetype)init
 {
     self = [super init];
     if (self) {
         // init your code
-        _navigationController = navigationController;
-        
+        self.hidden = YES;
         _panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panGestureHandler:)];
-        [self.navigationController.view addGestureRecognizer:_panGestureRecognizer];
         
-        _flipTransition = [USNavFlipTransition new];
-        _fadeTransition = [USNavFadeTransition new];
-        _scaleTransition = [USNavScaleTransition new];
+        _flipTransition = [USFlipTransitionAnimator new];
+        _fadeTransition = [USFadeTransitionAnimator new];
+        _scaleTransition = [USScaleTransitionAnimator new];
     }
     return self;
+}
+
+- (void)setNavigationController:(UINavigationController *)navigationController
+{
+    _navigationController = navigationController;
+    
+    [_navigationController.view insertSubview:self atIndex:0];
+    [_navigationController.view addGestureRecognizer:_panGestureRecognizer];
 }
 
 - (void)panGestureHandler:(UIPanGestureRecognizer*)recognizer
 {
     // Calculate how far the user has dragged across the view
-    UIView *view = self.navigationController.view;
+    UIView *view = _navigationController.view;
     CGPoint translation = [recognizer translationInView:view];
     CGFloat progress = translation.x / CGRectGetWidth(view.bounds);
     progress = MIN(1.0, MAX(0.0, progress));
     
     if (recognizer.state == UIGestureRecognizerStateBegan) {
         CGPoint location = [recognizer locationInView:view];
-        if (location.x <  CGRectGetMidX(view.bounds) && self.navigationController.viewControllers.count > 1) { // left half
+        if (location.x <  CGRectGetMidX(view.bounds) && _navigationController.viewControllers.count > 1) { // left half
             // Create a interactive transition and pop the view controller
             _interactivePopTransition = [UIPercentDrivenInteractiveTransition new];
             [_navigationController popViewControllerAnimated:YES];
@@ -78,7 +83,7 @@
 
 - (id<UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController animationControllerForOperation:(UINavigationControllerOperation)operation fromViewController:(UIViewController *)fromVC toViewController:(UIViewController *)toVC
 {
-    USNavAnimationTransition *transition = nil;
+    USTransitionAnimator *transition = nil;
     
     BOOL reversed = operation==UINavigationControllerOperationPop;
     USViewController *targetVC = (USViewController *)(reversed?fromVC:toVC);
@@ -92,7 +97,7 @@
                 transition = _flipTransition;
                 break;
             case USNavigationTransitionOptionScale:
-                if ([targetVC conformsToProtocol:@protocol(USScaleTransitionDataSource)]) {
+                if ([targetVC conformsToProtocol:@protocol(USScaleTransitionAnimatorDataSource)]) {
                     _scaleTransition.dataSource = (id)targetVC;
                     transition = _scaleTransition;
                 } else {
@@ -110,7 +115,7 @@
 
 - (id<UIViewControllerInteractiveTransitioning>)navigationController:(UINavigationController *)navigationController interactionControllerForAnimationController:(id<UIViewControllerAnimatedTransitioning>)animationController
 {
-    if ([animationController isKindOfClass:[USNavAnimationTransition class]]) {
+    if ([animationController isKindOfClass:[USTransitionAnimator class]]) {
         _panGestureRecognizer.enabled = YES;
         return self.interactivePopTransition;
     }

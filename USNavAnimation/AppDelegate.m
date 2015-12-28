@@ -8,12 +8,9 @@
 
 #import "AppDelegate.h"
 #import "RootViewController.h"
-#import "USNavigationControllerDelegate.h"
+#import "USNavDelegateHandler.h"
 
 @interface AppDelegate ()
-{
-    USNavigationControllerDelegate *navDelegate;
-}
 
 @end
 
@@ -27,13 +24,13 @@
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     
-    
     RootViewController *rootVC = [RootViewController viewController];
     UINavigationController *naVC = [[UINavigationController alloc] initWithRootViewController:rootVC];
-    navDelegate = [[USNavigationControllerDelegate alloc] initWithNavigationController:naVC];
+    USNavDelegateHandler *delegateHandler = [[USNavDelegateHandler alloc] init];
+    delegateHandler.navigationController = naVC;
     naVC.view.backgroundColor = [UIColor blackColor];
-    naVC.delegate = navDelegate;
-    naVC.interactivePopGestureRecognizer.delegate = navDelegate;
+    naVC.delegate = delegateHandler;
+    naVC.interactivePopGestureRecognizer.delegate = delegateHandler;
     
     self.window.rootViewController = naVC;
     
