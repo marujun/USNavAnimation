@@ -6,8 +6,6 @@
 //  Copyright © 2015年 MaRuJun. All rights reserved.
 //
 
-//http://dativestudios.com/blog/2013/09/29/interactive-transitions/
-
 #import "USNavDelegateHandler.h"
 #import "USTransitionAnimator.h"
 #import "USViewController.h"

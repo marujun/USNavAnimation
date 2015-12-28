@@ -111,10 +111,8 @@
         [containerView bringSubviewToFront:fromViewController.view];
     }
     
+    snapshotView.hidden = NO;
     snapshotView.translatesAutoresizingMaskIntoConstraints = YES;
-    [snapshotView removeFromSuperview];
-    [containerView addSubview:snapshotView];
-    
     snapshotView.frame = _reversed?endRect:beginRect;
     
     if ([_dataSource respondsToSelector:@selector(snapshotViewDidPresented:)]) {
@@ -127,7 +125,7 @@
     } completion:^(BOOL finished) {
         [transitionContext completeTransition:!transitionContext.transitionWasCancelled];
         
-        [snapshotView removeFromSuperview];
+        snapshotView.hidden = YES;
         if ([_dataSource respondsToSelector:@selector(snapshotViewDidDismiss:)]) {
             [_dataSource snapshotViewDidDismiss:self];
         }

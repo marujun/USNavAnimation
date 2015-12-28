@@ -61,6 +61,13 @@
     NSLog(@"%@ viewDidAppear",  NSStringFromClass([self class]));
 }
 
+- (void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+    
+    NSLog(@"%@ viewDidLayoutSubviews",  NSStringFromClass([self class]));
+}
+
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];

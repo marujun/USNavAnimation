@@ -49,7 +49,7 @@
     _lastDisplayView = [[UIImageView alloc] init];
     _lastDisplayView.backgroundColor = [UIColor redColor];
     _lastDisplayView.frame = [self endRectWithScaleAnimator:nil];
-    [self.view addSubview:_lastDisplayView];
+    [self.view insertSubview:_lastDisplayView belowSubview:_bottomButton];
 }
 
 - (IBAction)bottomButtonAction:(UIButton *)sender
@@ -76,6 +76,7 @@
     if (!_transitionAnimationView) {
         _transitionAnimationView = [[UIImageView alloc] init];
         _transitionAnimationView.backgroundColor = [UIColor redColor];
+        [self.view insertSubview:_transitionAnimationView belowSubview:_bottomButton];
     }
     return _transitionAnimationView;
 }
