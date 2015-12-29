@@ -31,21 +31,16 @@
     UIViewController *toViewController = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     [containerView addSubview:toViewController.view];
     
-    if (!_reversed) {
-        toViewController.view.frame = containerView.bounds;
-        toViewController.view.alpha = 0;
-    }
-    else {
-        [containerView bringSubviewToFront:fromViewController.view];
-    }
+    if (!_reversed) toViewController.view.frame = containerView.bounds;
+    else [containerView bringSubviewToFront:fromViewController.view];
+    
+    toViewController.view.alpha = 0;
     
     [UIView animateWithDuration:[self transitionDuration:transitionContext] animations:^{
-        if (_reversed) {
-            fromViewController.view.alpha = 0;
-        } else {
-            toViewController.view.alpha = 1;
-        }
+        fromViewController.view.alpha = 0;
+        toViewController.view.alpha = 1;
     } completion:^(BOOL finished) {
+        fromViewController.view.alpha = 1;
         [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
     }];
 }
@@ -67,6 +62,7 @@
         toViewController.view.frame = containerView.bounds;
     }
     else {
+        toViewController.view.alpha = 1;
         [containerView bringSubviewToFront:fromViewController.view];
     }
     
@@ -108,6 +104,7 @@
         for (UIView *itemView in fadeViews) itemView.alpha = 0;
     }
     else {
+        toViewController.view.alpha = 1;
         [containerView bringSubviewToFront:fromViewController.view];
     }
     
