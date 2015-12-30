@@ -15,6 +15,7 @@
 @property (strong, nonatomic) USFlipTransitionAnimator *flipTransition;
 @property (strong, nonatomic) USFadeTransitionAnimator *fadeTransition;
 @property (strong, nonatomic) USScaleTransitionAnimator *scaleTransition;
+@property (strong, nonatomic) USNormalTransitionAnimator *normalTransition;
 
 @property (strong, nonatomic) UIPanGestureRecognizer *panGestureRecognizer;
 @property (strong, nonatomic) UIPercentDrivenInteractiveTransition *interactivePopTransition;
@@ -35,6 +36,7 @@
         _flipTransition = [USFlipTransitionAnimator new];
         _fadeTransition = [USFadeTransitionAnimator new];
         _scaleTransition = [USScaleTransitionAnimator new];
+        _normalTransition = [USNormalTransitionAnimator new];
     }
     return self;
 }
@@ -101,6 +103,9 @@
                 } else {
                     targetVC.transitionOption = USNavigationTransitionOptionNone;
                 }
+                break;
+            case USNavigationTransitionOptionNormal:
+                transition = _normalTransition;
                 break;
             default:
                 break;

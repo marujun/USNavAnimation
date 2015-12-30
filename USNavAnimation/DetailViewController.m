@@ -28,7 +28,7 @@
    
     if (self.transitionOption != USNavigationTransitionOptionScale) {
         [self snapshotViewWithScaleAnimator:nil];
-        [self.view addSubview:_transitionAnimationView];
+        [self.view insertSubview:_transitionAnimationView belowSubview:_bottomButton];
         _transitionAnimationView.frame = [self endRectWithScaleAnimator:nil];
     }
 }

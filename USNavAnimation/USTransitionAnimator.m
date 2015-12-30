@@ -12,7 +12,7 @@
 
 - (NSTimeInterval)transitionDuration:(id <UIViewControllerContextTransitioning>)transitionContext
 {
-    return 1;
+    return 0.3;
 }
 
 - (void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext
@@ -23,6 +23,11 @@
 @end
 
 @implementation USFadeTransitionAnimator
+
+- (NSTimeInterval)transitionDuration:(id <UIViewControllerContextTransitioning>)transitionContext
+{
+    return 0.5;
+}
 
 - (void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext
 {
@@ -49,6 +54,11 @@
 
 @implementation USFlipTransitionAnimator
 
+- (NSTimeInterval)transitionDuration:(id <UIViewControllerContextTransitioning>)transitionContext
+{
+    return 1.0;
+}
+
 - (void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext
 {
     UIView *containerView = [transitionContext containerView];
@@ -74,8 +84,8 @@
                         fromViewController.view.hidden = YES;
                     }
                     completion:^(BOOL finished) {
-                        [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
                         fromViewController.view.hidden = NO;
+                        [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
                     }];
 }
 
@@ -89,6 +99,8 @@
     UIViewController *fromViewController = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
     UIViewController *toViewController = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     [containerView addSubview:toViewController.view];
+    
+    _cancel = NO;
     
     UIView *snapshotView = [_dataSource snapshotViewWithScaleAnimator:self];
     NSArray *fadeViews = [_dataSource fadeViewsWithScaleAnimator:self];
@@ -116,16 +128,103 @@
         [_dataSource snapshotViewDidPresented:self];
     }
     
-    [UIView animateWithDuration:[self transitionDuration:transitionContext] animations:^{
-        for (UIView *itemView in fadeViews) itemView.alpha = _reversed?0:1;
-        snapshotView.frame = _reversed?beginRect:endRect;
-    } completion:^(BOOL finished) {
+    void (^completeBlock)(BOOL finished) = ^(BOOL finished){
         [transitionContext completeTransition:!transitionContext.transitionWasCancelled];
         
         snapshotView.hidden = YES;
         if ([_dataSource respondsToSelector:@selector(snapshotViewDidDismiss:)]) {
             [_dataSource snapshotViewDidDismiss:self];
         }
+    };
+    
+    if (_cancel) {
+        if (_reversed) {
+            snapshotView.hidden = YES;
+            [UIView animateWithDuration:[self transitionDuration:transitionContext] animations:^{
+                fromViewController.view.alpha = 0;
+            } completion:completeBlock];
+        }
+        else {
+            for (UIView *itemView in fadeViews) itemView.alpha = _reversed?0:1;
+            completeBlock(YES);
+        }
+    }
+    else {
+        [UIView animateWithDuration:[self transitionDuration:transitionContext] animations:^{
+            for (UIView *itemView in fadeViews) itemView.alpha = _reversed?0:1;
+            snapshotView.frame = _reversed?beginRect:endRect;
+        } completion:completeBlock];
+    }
+}
+
+@end
+
+@implementation USNormalTransitionAnimator
+
+- (void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext
+{
+    UIView *containerView = [transitionContext containerView];
+    UIViewController *fromViewController = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
+    UIViewController *toViewController = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+    [containerView addSubview:toViewController.view];
+    
+    UIView *maskView = [[UIView alloc] initWithFrame:containerView.bounds];
+    maskView.backgroundColor = [UIColor blackColor];
+    
+    UIView *shadowView = [[UIView alloc] init];
+    shadowView.backgroundColor = [UIColor grayColor];
+    shadowView.layer.shadowOffset =CGSizeMake(0.f, 0.f);
+    shadowView.layer.shadowRadius = 6.f;
+    shadowView.layer.shadowColor = [UIColor blackColor].CGColor;
+    shadowView.layer.shadowOpacity = 0.8;
+    
+    CGRect toRect = containerView.bounds;
+    CGFloat xOffset = toRect.size.width*3.f/10.f;
+    CGRect fromRect = fromViewController.view.frame;
+    CGRect shadowRect = CGRectMake(0, 0, 10, toRect.size.height);
+    
+    if (!_reversed) {
+        toRect.origin.x = toRect.size.width;
+        toViewController.view.frame = toRect;
+        
+        shadowRect.origin.x = toRect.origin.x;
+        shadowView.frame = shadowRect;
+        [containerView insertSubview:maskView aboveSubview:fromViewController.view];
+        
+        toRect.origin.x = 0;
+        fromRect.origin.x = -xOffset;
+        shadowRect.origin.x = toRect.origin.x;
+    }
+    else {
+        toRect.origin.x = -xOffset;
+        toViewController.view.alpha = 1;
+        toViewController.view.frame = toRect;
+        
+        shadowRect.origin.x = fromRect.origin.x;
+        shadowView.frame = shadowRect;
+        [containerView bringSubviewToFront:fromViewController.view];
+        [containerView insertSubview:maskView belowSubview:fromViewController.view];
+        
+        toRect.origin.x = 0;
+        fromRect.origin.x = fromRect.size.width;
+        shadowRect.origin.x = fromRect.origin.x;
+    }
+    [containerView insertSubview:shadowView aboveSubview:maskView];
+    
+    maskView.alpha = _reversed?0.1:0;
+    shadowView.alpha = _reversed?0.5:0;
+    
+    [UIView animateWithDuration:[self transitionDuration:transitionContext] animations:^{
+        toViewController.view.frame = toRect;
+        fromViewController.view.frame = fromRect;
+        
+        maskView.alpha = _reversed?0:0.1;
+        shadowView.alpha = _reversed?0:0.5;
+        shadowView.frame = shadowRect;
+    } completion:^(BOOL finished) {
+        [maskView removeFromSuperview];
+        [shadowView removeFromSuperview];
+        [transitionContext completeTransition:!transitionContext.transitionWasCancelled];
     }];
 }
 

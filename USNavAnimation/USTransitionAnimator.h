@@ -10,10 +10,11 @@
 #import <Foundation/Foundation.h>
 
 typedef NS_ENUM(NSUInteger, USNavigationTransitionOption) {
-    USNavigationTransitionOptionNone = 0,
-    USNavigationTransitionOptionFade,
-    USNavigationTransitionOptionFlip,
-    USNavigationTransitionOptionScale
+    USNavigationTransitionOptionNone = 0,   //系统默认动画
+    USNavigationTransitionOptionFade,       //渐隐渐现动画
+    USNavigationTransitionOptionFlip,       //3D翻转动画
+    USNavigationTransitionOptionScale,      //类似相册的缩放动画
+    USNavigationTransitionOptionNormal      //模拟系统的动画
 };
 
 @interface USTransitionAnimator : NSObject <UIViewControllerAnimatedTransitioning>
@@ -49,6 +50,11 @@ typedef NS_ENUM(NSUInteger, USNavigationTransitionOption) {
 
 @interface USScaleTransitionAnimator : USTransitionAnimator
 
+@property (nonatomic, assign) BOOL cancel;
 @property (weak, nonatomic) id<USScaleTransitionAnimatorDataSource> dataSource;
+
+@end
+
+@interface USNormalTransitionAnimator : USTransitionAnimator
 
 @end
