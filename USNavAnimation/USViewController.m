@@ -42,6 +42,11 @@
     
 }
 
+- (UIViewController *)viewControllerWillPushForLeftDirectionPan
+{
+    return nil;
+}
+
 + (instancetype)viewController
 {
     return [[self alloc] initWithNibName:NSStringFromClass([self class]) bundle:nil];

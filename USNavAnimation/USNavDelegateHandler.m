@@ -18,7 +18,7 @@
 @property (strong, nonatomic) USNormalTransitionAnimator *normalTransition;
 
 @property (strong, nonatomic) UIPanGestureRecognizer *panGestureRecognizer;
-@property (strong, nonatomic) UIPercentDrivenInteractiveTransition *interactivePopTransition;
+@property (strong, nonatomic) UIPercentDrivenInteractiveTransition *interactiveTransition;
 
 @end
 
@@ -55,29 +55,44 @@
     UIView *view = _navigationController.view;
     CGPoint translation = [recognizer translationInView:view];
     CGFloat progress = translation.x / CGRectGetWidth(view.bounds);
-    progress = MIN(1.0, MAX(0.0, progress));
+    progress = MIN(1.0, MAX(0.0, fabs(progress)));
     
     if (recognizer.state == UIGestureRecognizerStateBegan) {
         CGPoint location = [recognizer locationInView:view];
-        if (location.x <  CGRectGetMidX(view.bounds) && _navigationController.viewControllers.count > 1) { // left half
+        CGPoint velocity = [recognizer velocityInView:view];
+        NSInteger count = _navigationController.viewControllers.count;
+        
+        if (location.x <  CGRectGetMidX(view.bounds) && velocity.x > 0 && count > 1) { // left half went right
             // Create a interactive transition and pop the view controller
-            _interactivePopTransition = [UIPercentDrivenInteractiveTransition new];
+            _interactiveTransition = [UIPercentDrivenInteractiveTransition new];
             [_navigationController popViewControllerAnimated:YES];
+        }
+        else if (location.x >  CGRectGetMidX(view.bounds) && velocity.x < 0) { // right half went left
+            //Need topViewController implementation selector 
+            USViewController *topViewController = (id)_navigationController.topViewController;
+            if ([topViewController respondsToSelector:@selector(viewControllerWillPushForLeftDirectionPan)]) {
+                UIViewController *viewController = [topViewController viewControllerWillPushForLeftDirectionPan];
+                if (viewController) {
+                    // Create a interactive transition and push the view controller
+                    _interactiveTransition = [UIPercentDrivenInteractiveTransition new];
+                    [_navigationController pushViewController:viewController animated:YES];
+                }
+            }
         }
     }
     else if (recognizer.state == UIGestureRecognizerStateChanged) {
         // Update the interactive transition's progress
-        [_interactivePopTransition updateInteractiveTransition:progress];
+        [_interactiveTransition updateInteractiveTransition:progress];
     }
     else if (recognizer.state == UIGestureRecognizerStateEnded ||
              recognizer.state == UIGestureRecognizerStateCancelled) {
         // Finish or cancel the interactive transition
         if (progress < 0.4  || recognizer.state == UIGestureRecognizerStateCancelled) {
-            [_interactivePopTransition cancelInteractiveTransition];
+            [_interactiveTransition cancelInteractiveTransition];
         } else {
-            [_interactivePopTransition finishInteractiveTransition];
+            [_interactiveTransition finishInteractiveTransition];
         }
-        _interactivePopTransition = nil;
+        _interactiveTransition = nil;
     }
 }
 
@@ -120,7 +135,7 @@
 {
     if ([animationController isKindOfClass:[USTransitionAnimator class]]) {
         _panGestureRecognizer.enabled = YES;
-        return self.interactivePopTransition;
+        return _interactiveTransition;
     }
     
     _panGestureRecognizer.enabled = NO;

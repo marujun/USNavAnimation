@@ -54,9 +54,22 @@
 
 - (IBAction)bottomButtonAction:(UIButton *)sender
 {
+    [self.navigationController pushViewController:[self viewControllerWillPushForLeftDirectionPan] animated:YES];
+}
+
+- (UIViewController *)viewControllerWillPushForLeftDirectionPan
+{
     TimelineViewController *timelineViewController = [TimelineViewController viewController];
-    timelineViewController.transitionOption = USNavigationTransitionOptionFlip;
-    [self.navigationController pushViewController:timelineViewController animated:YES];
+    if (self.transitionOption == USNavigationTransitionOptionNormal) {
+        timelineViewController.transitionOption = USNavigationTransitionOptionNormal;
+    }
+    else if (self.transitionOption == USNavigationTransitionOptionFade) {
+        timelineViewController.transitionOption = USNavigationTransitionOptionFade;
+    }
+    else {
+        timelineViewController.transitionOption = USNavigationTransitionOptionFlip;
+    }
+    return timelineViewController;
 }
 
 #pragma mark - USScaleTransitionAnimatorDataSource

@@ -18,4 +18,6 @@
 
 + (instancetype)viewController;
 
+- (UIViewController *)viewControllerWillPushForLeftDirectionPan;
+
 @end
