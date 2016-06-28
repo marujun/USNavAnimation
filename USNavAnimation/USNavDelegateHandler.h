@@ -7,10 +7,23 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <Foundation/Foundation.h>
 
 @interface USNavDelegateHandler : UIView <UINavigationControllerDelegate,UIGestureRecognizerDelegate>
 
 @property (strong, nonatomic) UINavigationController *navigationController;
+
+@end
+
+@interface UINavigationController (USNavDelegateHandler)
+
+@property (nonatomic, copy) void(^delegateCompletionHandler)();
+
+/* TODO: 如果要使用下面这些扩展方法，UINavigationController的delegate必须是USNavDelegateHandler对象！！！
+ */
+- (UIViewController *)popViewControllerAnimated:(BOOL)animated completion:(void (^)())completion;
+
+- (NSArray<UIViewController *> *)popToRootViewControllerAnimated:(BOOL)animated completion:(void (^)())completion;
+
+- (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated completion:(void (^)())completion;
 
 @end

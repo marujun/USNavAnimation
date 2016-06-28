@@ -49,7 +49,7 @@
 - (IBAction)noneButtonAction:(UIButton *)sender
 {
     DetailViewController *detailViewController = [DetailViewController viewController];
-    detailViewController.transitionOption = USNavigationTransitionOptionNormal;
+    detailViewController.transitionOption = USNavigationTransitionOptionNone;
     [self.navigationController pushViewController:detailViewController animated:YES];
 }
 

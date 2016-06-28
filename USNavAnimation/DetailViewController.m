@@ -60,11 +60,11 @@
 - (UIViewController *)viewControllerWillPushForLeftDirectionPan
 {
     TimelineViewController *timelineViewController = [TimelineViewController viewController];
-    if (self.transitionOption == USNavigationTransitionOptionNormal) {
-        timelineViewController.transitionOption = USNavigationTransitionOptionNormal;
+    if (self.transitionOption == USNavigationTransitionOptionNone) {
+        timelineViewController.transitionOption = USNavigationTransitionOptionSystem;
     }
     else if (self.transitionOption == USNavigationTransitionOptionFade) {
-        timelineViewController.transitionOption = USNavigationTransitionOptionFade;
+        timelineViewController.transitionOption = USNavigationTransitionOptionFromBottom;
     }
     else {
         timelineViewController.transitionOption = USNavigationTransitionOptionFlip;

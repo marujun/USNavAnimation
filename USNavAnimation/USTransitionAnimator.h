@@ -7,22 +7,28 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <Foundation/Foundation.h>
 
 typedef NS_ENUM(NSUInteger, USNavigationTransitionOption) {
-    USNavigationTransitionOptionNone = 0,   //系统默认动画
-    USNavigationTransitionOptionFade,       //渐隐渐现动画
-    USNavigationTransitionOptionFlip,       //3D翻转动画
-    USNavigationTransitionOptionScale,      //类似相册的缩放动画
-    USNavigationTransitionOptionNormal      //模拟系统的动画
+    USNavigationTransitionOptionNone = 0,       //系统默认动画
+    USNavigationTransitionOptionFade,           //渐隐渐现动画
+    USNavigationTransitionOptionFlip,           //3D翻转动画
+    USNavigationTransitionOptionScale,          //类似相册的缩放动画
+    USNavigationTransitionOptionSystem,         //模拟系统动画
+    
+    USNavigationTransitionOptionFromRight,      //从右边弹出动画
+    USNavigationTransitionOptionFromLeft,       //从左边弹出动画
+    USNavigationTransitionOptionFromTop,        //从顶部弹出动画
+    USNavigationTransitionOptionFromBottom,     //从底部弹出动画
 };
 
 @interface USTransitionAnimator : NSObject <UIViewControllerAnimatedTransitioning>
 {
     BOOL _reversed;
+    BOOL _interactive;
 }
 
 @property (nonatomic, assign) BOOL reversed;
+@property (nonatomic, assign) BOOL interactive;
 
 @end
 
@@ -51,10 +57,16 @@ typedef NS_ENUM(NSUInteger, USNavigationTransitionOption) {
 @interface USScaleTransitionAnimator : USTransitionAnimator
 
 @property (nonatomic, assign) BOOL cancel;
-@property (weak, nonatomic) id<USScaleTransitionAnimatorDataSource> dataSource;
+@property (nonatomic, weak) id<USScaleTransitionAnimatorDataSource> dataSource;
 
 @end
 
-@interface USNormalTransitionAnimator : USTransitionAnimator
+@interface USSysTransitionAnimator : USTransitionAnimator
+
+@end
+
+@interface USPresentTransitionAnimator : USTransitionAnimator
+
+@property (nonatomic, assign) USNavigationTransitionOption option;
 
 @end

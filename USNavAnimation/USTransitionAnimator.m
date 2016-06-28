@@ -12,7 +12,7 @@
 
 - (NSTimeInterval)transitionDuration:(id <UIViewControllerContextTransitioning>)transitionContext
 {
-    return 0.35;
+    return 0.5;
 }
 
 - (void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext
@@ -24,30 +24,38 @@
 
 @implementation USFadeTransitionAnimator
 
-- (NSTimeInterval)transitionDuration:(id <UIViewControllerContextTransitioning>)transitionContext
-{
-    return 0.5;
-}
-
 - (void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext
 {
     UIView *containerView = [transitionContext containerView];
     UIViewController *fromViewController = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
     UIViewController *toViewController = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+    
+    toViewController.view.frame = [transitionContext finalFrameForViewController:toViewController];
     [containerView addSubview:toViewController.view];
     
-    if (!_reversed) toViewController.view.frame = containerView.bounds;
-    else [containerView bringSubviewToFront:fromViewController.view];
-    
-    toViewController.view.alpha = 0;
-    
-    [UIView animateWithDuration:[self transitionDuration:transitionContext] animations:^{
-        fromViewController.view.alpha = 0;
+    if (!_reversed) {
+        toViewController.view.alpha = 0;
+    }
+    else {
         toViewController.view.alpha = 1;
-    } completion:^(BOOL finished) {
-        fromViewController.view.alpha = 1;
+        [containerView bringSubviewToFront:fromViewController.view];
+    }
+    
+    void (^animations)(void) = ^(void) {
+        if(!_reversed) toViewController.view.alpha = 1;
+        else fromViewController.view.alpha = 0;
+    };
+    
+    void (^completion)(BOOL finished) = ^(BOOL finished) {
         [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
-    }];
+    };
+    
+    if (_interactive) {
+        [UIView animateWithDuration:[self transitionDuration:transitionContext] delay:0.f
+                            options:UIViewAnimationOptionCurveLinear animations:animations completion:completion];
+    } else {
+        [UIView animateWithDuration:[self transitionDuration:transitionContext] animations:animations completion:completion];
+    }
 }
 
 @end
@@ -64,12 +72,13 @@
     UIView *containerView = [transitionContext containerView];
     UIViewController *fromViewController = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
     UIViewController *toViewController = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+    
+    toViewController.view.frame = [transitionContext finalFrameForViewController:toViewController];
     [containerView addSubview:toViewController.view];
     
     UIViewAnimationOptions options = UIViewAnimationOptionTransitionFlipFromLeft;
     if (!_reversed) {
         options = UIViewAnimationOptionTransitionFlipFromRight;
-        toViewController.view.frame = containerView.bounds;
     }
     else {
         toViewController.view.alpha = 1;
@@ -84,8 +93,8 @@
                         fromViewController.view.hidden = YES;
                     }
                     completion:^(BOOL finished) {
-                        fromViewController.view.hidden = NO;
                         [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
+                        fromViewController.view.hidden = NO;
                     }];
 }
 
@@ -93,11 +102,18 @@
 
 @implementation USScaleTransitionAnimator
 
+- (NSTimeInterval)transitionDuration:(id <UIViewControllerContextTransitioning>)transitionContext
+{
+    return 0.35;
+}
+
 - (void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext
 {
     UIView *containerView = [transitionContext containerView];
     UIViewController *fromViewController = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
     UIViewController *toViewController = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+    
+    toViewController.view.frame = [transitionContext finalFrameForViewController:toViewController];
     [containerView addSubview:toViewController.view];
     
     _cancel = NO;
@@ -112,7 +128,6 @@
     UIViewAnimationOptions options = UIViewAnimationOptionTransitionFlipFromLeft;
     if (!_reversed) {
         options = UIViewAnimationOptionTransitionFlipFromRight;
-        toViewController.view.frame = containerView.bounds;
         for (UIView *itemView in fadeViews) itemView.alpha = 0;
     }
     else {
@@ -120,9 +135,9 @@
         [containerView bringSubviewToFront:fromViewController.view];
     }
     
-    snapshotView.hidden = NO;
     snapshotView.translatesAutoresizingMaskIntoConstraints = YES;
     snapshotView.frame = _reversed?endRect:beginRect;
+    snapshotView.hidden = NO;
     
     if ([_dataSource respondsToSelector:@selector(snapshotViewDidPresented:)]) {
         [_dataSource snapshotViewDidPresented:self];
@@ -159,16 +174,20 @@
 
 @end
 
-@implementation USNormalTransitionAnimator
+
+@implementation USSysTransitionAnimator
 
 - (void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext
 {
     UIView *containerView = [transitionContext containerView];
     UIViewController *fromViewController = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
     UIViewController *toViewController = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+    
+    toViewController.view.frame = [transitionContext finalFrameForViewController:toViewController];
     [containerView addSubview:toViewController.view];
     
-    UIView *maskView = [[UIView alloc] initWithFrame:containerView.bounds];
+    CGRect toRect = toViewController.view.bounds;
+    UIView *maskView = [[UIView alloc] initWithFrame:toRect];
     maskView.backgroundColor = [UIColor blackColor];
     
     UIView *shadowView = [[UIView alloc] init];
@@ -178,7 +197,6 @@
     shadowView.layer.shadowColor = [UIColor blackColor].CGColor;
     shadowView.layer.shadowOpacity = 0.8;
     
-    CGRect toRect = containerView.bounds;
     CGFloat xOffset = toRect.size.width*3.f/10.f;
     CGRect fromRect = fromViewController.view.frame;
     CGRect shadowRect = CGRectMake(0, 0, 10, toRect.size.height);
@@ -214,18 +232,90 @@
     maskView.alpha = _reversed?0.1:0;
     shadowView.alpha = _reversed?0.5:0;
     
-    [UIView animateWithDuration:[self transitionDuration:transitionContext] animations:^{
+    void (^animations)(void) = ^(void) {
         toViewController.view.frame = toRect;
         fromViewController.view.frame = fromRect;
         
         maskView.alpha = _reversed?0:0.1;
         shadowView.alpha = _reversed?0:0.5;
         shadowView.frame = shadowRect;
-    } completion:^(BOOL finished) {
+    };
+    
+    void (^completion)(BOOL finished) = ^(BOOL finished) {
         [maskView removeFromSuperview];
         [shadowView removeFromSuperview];
         [transitionContext completeTransition:!transitionContext.transitionWasCancelled];
-    }];
+    };
+    
+    if (_interactive) {
+        [UIView animateWithDuration:[self transitionDuration:transitionContext] delay:0.f
+                            options:UIViewAnimationOptionCurveLinear animations:animations completion:completion];
+    } else {
+        [UIView animateWithDuration:[self transitionDuration:transitionContext] delay:0.f usingSpringWithDamping:1.f
+              initialSpringVelocity:1.f options:UIViewAnimationOptionCurveEaseInOut animations:animations completion:completion];
+    }
+}
+
+@end
+
+
+@implementation USPresentTransitionAnimator
+
+- (void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext
+{
+    UIView *containerView = [transitionContext containerView];
+    UIViewController *fromViewController = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
+    UIViewController *toViewController = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+    
+    toViewController.view.frame = [transitionContext finalFrameForViewController:toViewController];
+    [containerView addSubview:toViewController.view];
+    
+    UIViewController *targetViewController;
+    CGRect bounds = toViewController.view.bounds;
+    CGRect transitionFrame;
+    
+    switch (self.option) {
+        case USNavigationTransitionOptionFromRight:
+            transitionFrame = CGRectMake(bounds.size.width, 0, bounds.size.width, bounds.size.height);
+            break;
+        case USNavigationTransitionOptionFromLeft:
+            transitionFrame = CGRectMake(-bounds.size.width, 0, bounds.size.width, bounds.size.height);
+            break;
+        case USNavigationTransitionOptionFromTop:
+            transitionFrame = CGRectMake(0, -bounds.size.height, bounds.size.width, bounds.size.height);
+            break;
+        case USNavigationTransitionOptionFromBottom:
+            transitionFrame = CGRectMake(0, bounds.size.height, bounds.size.width, bounds.size.height);
+            break;
+        default:
+            transitionFrame = bounds;
+            break;
+    }
+    
+    if (!_reversed) {
+        targetViewController = toViewController;
+        targetViewController.view.frame = transitionFrame;
+    } else {
+        targetViewController = fromViewController;
+        [containerView bringSubviewToFront:fromViewController.view];
+    }
+    
+    void (^animations)(void) = ^(void) {
+        if(_reversed) targetViewController.view.frame = transitionFrame;
+        else targetViewController.view.frame = bounds;
+    };
+    
+    void (^completion)(BOOL finished) = ^(BOOL finished) {
+        [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
+    };
+    
+    if (_interactive) {
+        [UIView animateWithDuration:[self transitionDuration:transitionContext] delay:0.f
+                            options:UIViewAnimationOptionCurveLinear animations:animations completion:completion];
+    } else {
+        [UIView animateWithDuration:[self transitionDuration:transitionContext] delay:0.f usingSpringWithDamping:1.f
+              initialSpringVelocity:1.f options:UIViewAnimationOptionCurveEaseInOut animations:animations completion:completion];
+    }
 }
 
 @end

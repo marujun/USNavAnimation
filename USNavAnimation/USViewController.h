@@ -11,8 +11,14 @@
 #import "USTransitionAnimator.h"
 
 @interface USViewController : UIViewController
+{
+    USNavigationTransitionOption _transitionOption;
+}
 
 @property (nonatomic, assign) USNavigationTransitionOption transitionOption;
+
+/** 是否允许屏幕边缘侧滑手势 */
+@property (nonatomic, assign) BOOL enableScreenEdgePanGesture;
 
 - (void)updateDisplay;
 

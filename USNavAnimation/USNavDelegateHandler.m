@@ -9,13 +9,15 @@
 #import "USNavDelegateHandler.h"
 #import "USTransitionAnimator.h"
 #import "USViewController.h"
+#import <objc/runtime.h>
 
 @interface USNavDelegateHandler ()
 
+@property (strong, nonatomic) USSysTransitionAnimator *sysTransition;
 @property (strong, nonatomic) USFlipTransitionAnimator *flipTransition;
 @property (strong, nonatomic) USFadeTransitionAnimator *fadeTransition;
 @property (strong, nonatomic) USScaleTransitionAnimator *scaleTransition;
-@property (strong, nonatomic) USNormalTransitionAnimator *normalTransition;
+@property (strong, nonatomic) USPresentTransitionAnimator *presentTransition;
 
 @property (strong, nonatomic) UIPanGestureRecognizer *panGestureRecognizer;
 @property (strong, nonatomic) UIPercentDrivenInteractiveTransition *interactiveTransition;
@@ -32,11 +34,13 @@
         // init your code
         self.hidden = YES;
         _panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panGestureHandler:)];
+        _panGestureRecognizer.delegate = self;
         
+        _sysTransition = [USSysTransitionAnimator new];
         _flipTransition = [USFlipTransitionAnimator new];
         _fadeTransition = [USFadeTransitionAnimator new];
         _scaleTransition = [USScaleTransitionAnimator new];
-        _normalTransition = [USNormalTransitionAnimator new];
+        _presentTransition = [USPresentTransitionAnimator new];
     }
     return self;
 }
@@ -68,7 +72,7 @@
             [_navigationController popViewControllerAnimated:YES];
         }
         else if (location.x >  CGRectGetMidX(view.bounds) && velocity.x < 0) { // right half went left
-            //Need topViewController implementation selector 
+            //Need topViewController implementation selector
             USViewController *topViewController = (id)_navigationController.topViewController;
             if ([topViewController respondsToSelector:@selector(viewControllerWillPushForLeftDirectionPan)]) {
                 UIViewController *viewController = [topViewController viewControllerWillPushForLeftDirectionPan];
@@ -108,8 +112,11 @@
             case USNavigationTransitionOptionFade:
                 transition = _fadeTransition;
                 break;
+            case USNavigationTransitionOptionSystem:
+                transition = _sysTransition;
+                break;
             case USNavigationTransitionOptionFlip:
-                transition = _flipTransition;
+                transition = _interactiveTransition?_sysTransition:_flipTransition;
                 break;
             case USNavigationTransitionOptionScale:
                 if ([targetVC conformsToProtocol:@protocol(USScaleTransitionAnimatorDataSource)]) {
@@ -119,14 +126,21 @@
                     targetVC.transitionOption = USNavigationTransitionOptionNone;
                 }
                 break;
-            case USNavigationTransitionOptionNormal:
-                transition = _normalTransition;
+                
+            case USNavigationTransitionOptionFromRight:
+            case USNavigationTransitionOptionFromLeft:
+            case USNavigationTransitionOptionFromTop:
+            case USNavigationTransitionOptionFromBottom:
+                transition = _presentTransition;
+                _presentTransition.option = targetVC.transitionOption;
                 break;
+                
             default:
                 break;
         }
     }
     transition.reversed = reversed;
+    transition.interactive = _interactiveTransition?YES:NO;
     
     return transition;
 }
@@ -143,16 +157,12 @@
 }
 
 #pragma mark - UINavigationControllerDelegate
-- (void)navigationController:(UINavigationController *)navigationController
-      willShowViewController:(UIViewController *)viewController
-                    animated:(BOOL)animated
+- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
     
 }
 
-- (void)navigationController:(UINavigationController *)navigationController
-       didShowViewController:(USViewController *)viewController
-                    animated:(BOOL)animated
+- (void)navigationController:(UINavigationController *)navigationController didShowViewController:(USViewController *)viewController animated:(BOOL)animated
 {
     if ([viewController respondsToSelector:@selector(transitionOption)] &&
         viewController.transitionOption != USNavigationTransitionOptionNone) {
@@ -160,6 +170,17 @@
     }
     else {
         _panGestureRecognizer.enabled = NO;
+    }
+    
+    void(^completionHandler)() = navigationController.delegateCompletionHandler;
+    if (completionHandler) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            completionHandler();
+            
+            if ([completionHandler isEqual:navigationController.delegateCompletionHandler]) {
+                navigationController.delegateCompletionHandler = nil;
+            }
+        });
     }
 }
 
@@ -170,7 +191,51 @@
         return NO;
     }
     
+    USViewController *topVC = (id)_navigationController.topViewController;
+    if ([topVC respondsToSelector:@selector(enableScreenEdgePanGesture)]) {
+        return [topVC enableScreenEdgePanGesture];
+    }
+    
     return YES;
+}
+
+@end
+
+
+static NSString * const USNavDelegateCompletionHandler = @"USNavDelegateCompletionHandler";
+
+@implementation UINavigationController (USNavDelegateHandler)
+@dynamic delegateCompletionHandler;
+
+- (void (^)())delegateCompletionHandler
+{
+    return objc_getAssociatedObject(self, &USNavDelegateCompletionHandler);
+}
+
+- (void)setDelegateCompletionHandler:(void (^)())delegateCompletionHandler
+{
+    objc_setAssociatedObject(self, &USNavDelegateCompletionHandler, delegateCompletionHandler, OBJC_ASSOCIATION_COPY_NONATOMIC);
+}
+
+- (UIViewController *)popViewControllerAnimated:(BOOL)animated completion:(void (^)())completion
+{
+    self.delegateCompletionHandler = completion;
+    
+    return [self popViewControllerAnimated:animated];
+}
+
+- (NSArray<UIViewController *> *)popToRootViewControllerAnimated:(BOOL)animated completion:(void (^)())completion
+{
+    self.delegateCompletionHandler = completion;
+    
+    return [self popToRootViewControllerAnimated:animated];
+}
+
+- (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated completion:(void (^)())completion
+{
+    self.delegateCompletionHandler = completion;
+    
+    [self pushViewController:viewController animated:animated];
 }
 
 @end

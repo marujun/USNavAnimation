@@ -34,6 +34,8 @@
 
 - (void)fInit
 {
+    _enableScreenEdgePanGesture = YES;
+    
     NSLog(@"init 创建类 %@", NSStringFromClass([self class]));
 }
 
